@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SkillGap AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>SkillGap AI</h1>
+
+    <p class="subtitle">
+        AI Powered Resume Skill Gap Analyzer
+    </p>
+
+
+    <form method="POST"
+          enctype="multipart/form-data">
+
+        <label>Upload Your Resume</label>
+
+        <input
+            type="file"
+            name="resume"
+            accept=".pdf,.docx"
+            required
+        >
+
+
+        <label>Select Job Role</label>
+
+        <select name="job_role" required>
+
+            <option value="">
+                Select Job Role
+            </option>
+
+            <option value="Data Analyst">
+                Data Analyst
+            </option>
+
+            <option value="Data Scientist">
+                Data Scientist
+            </option>
+
+            <option value="Frontend Developer">
+                Frontend Developer
+            </option>
+
+            <option value="Backend Developer">
+                Backend Developer
+            </option>
+
+        </select>
+
+
+        <button type="submit">
+            Analyze Resume
+        </button>
+
+    </form>
+
+
+    {% if error %}
+
+    <div class="error">
+        {{ error }}
+    </div>
+
+    {% endif %}
+
+
+    {% if result %}
+
+    <div class="result">
+
+        <h2>Resume Analysis Result</h2>
+
+        <h3>
+            Selected Job:
+            {{ job_role }}
+        </h3>
+
+
+        <div class="score">
+
+            <span>{{ score }}%</span>
+
+            <p>Skill Match Score</p>
+
+        </div>
+
+
+        <div class="skills">
+
+            <div class="skill-box">
+
+                <h3>Skills Found</h3>
+
+                {% if found_skills %}
+
+                    {% for skill in found_skills %}
+
+                    <span class="found">
+                        ✓ {{ skill }}
+                    </span>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>No matching skills found.</p>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="skill-box">
+
+                <h3>Missing Skills</h3>
+
+                {% if missing_skills %}
+
+                    {% for skill in missing_skills %}
+
+                    <span class="missing">
+                        ✗ {{ skill }}
+                    </span>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>
+                        No major skill gap found!
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>
